@@ -18,7 +18,7 @@ for (const har_path of process.argv.slice(2)) {
 		let path = decodeURI(entry.request.url.slice(entry.request.url.indexOf('://') + 3).replace(/\?.*/, ''));
 		mkdirSync(dest + '/' + path.slice(0, path.lastIndexOf('/')), { recursive: true });
 		if (path.endsWith('/')) {
-			path += '__' + encodeURIComponent(entry.response.headers.find((_) => _.name.toLowerCase() === 'content-type')?.value);
+			path += '__' + entry.response.content.mimeType.replace(/[^A-Za-z0-9]/g, '_');
 			console.log(`Using fallback for filename: ${path}`);
 		}
 		if (entry.response.content.text == null) {
